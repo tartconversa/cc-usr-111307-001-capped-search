@@ -1,0 +1,43 @@
+{
+  "kind": "capped-search",
+  "providers": [
+    "甲",
+    "乙"
+  ],
+  "cap": 2,
+  "records": [
+    {
+      "id": "a",
+      "registered_at": 10,
+      "providers": [
+        "甲"
+      ],
+      "title": "资源甲"
+    },
+    {
+      "id": "b",
+      "registered_at": 10,
+      "providers": [
+        "甲"
+      ],
+      "title": "资源乙"
+    },
+    {
+      "id": "c",
+      "registered_at": 10,
+      "providers": [
+        "乙"
+      ],
+      "title": "资源丙"
+    },
+    {
+      "id": "d",
+      "registered_at": 11,
+      "providers": [
+        "甲",
+        "乙"
+      ],
+      "title": "联合资源"
+    }
+  ]
+}
