@@ -17,9 +17,10 @@ DATA = json.loads((Path(__file__).resolve().parents[1] / 'fixtures/source.json')
 
 class Source:
 
-    def __init__(self):
+    def __init__(self, data=None):
         self.lock = threading.RLock()
         self.state = {'generation': 1, 'requests': []}
+        self.data = DATA if data is None else data
 
     def route(self, method, target, headers, body):
         with self.lock:
@@ -31,23 +32,23 @@ class Source:
                 self.state.update(json.loads(body))
                 return (200, {}, b'{}')
             self.state['requests'].append({'method': method, 'target': target, 'headers': dict(headers), 'body': body.decode('utf-8', 'replace')})
-            kind = DATA['kind']
+            kind = self.data['kind']
             if path == '/providers':
-                return self.json({'providers': DATA['providers'], 'generation': self.state['generation']})
+                return self.json({'providers': self.data['providers'], 'generation': self.state['generation']})
             if path == '/search':
                 start, end = (int(query['start'][0]), int(query['end'][0]))
                 provider = query.get('provider', [None])[0]
-                records = [r for r in DATA['records'] if start <= r['registered_at'] < end and (provider is None or provider in r['providers'])]
+                records = [r for r in self.data['records'] if start <= r['registered_at'] < end and (provider is None or provider in r['providers'])]
                 records.sort(key=lambda r: (r['registered_at'], r['id']))
-                return self.json({'total': len(records), 'cap': DATA['cap'], 'generation': self.state['generation'], 'records': records[:DATA['cap']]})
+                return self.json({'total': len(records), 'cap': self.data['cap'], 'generation': self.state['generation'], 'records': records[:self.data['cap']]})
             return (404, {}, b'not found')
 
     @staticmethod
     def json(value, status=200):
         return (status, {'Content-Type': 'application/json; charset=utf-8'}, json.dumps(value, ensure_ascii=False).encode())
 
-def make_server(port=0):
-    source = Source()
+def make_server(port=0, data=None):
+    source = Source(data=data)
 
     class Handler(BaseHTTPRequestHandler):
 
@@ -94,7 +95,9 @@ def make_server(port=0):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='运行本机供应方协议服务')
     parser.add_argument('--port', type=int, default=8765)
+    parser.add_argument('--data', type=Path, default=None, help='自定义演练数据 JSON（默认 fixtures/source.json）')
     args = parser.parse_args()
-    with make_server(args.port) as server:
+    data = json.loads(args.data.read_text(encoding='utf-8')) if args.data else None
+    with make_server(args.port, data=data) as server:
         print('http://127.0.0.1:%d' % server.server_port, flush=True)
         server.serve_forever()

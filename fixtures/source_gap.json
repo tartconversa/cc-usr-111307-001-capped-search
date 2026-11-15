@@ -1,0 +1,91 @@
+{
+  "kind": "capped-search",
+  "providers": [
+    "甲",
+    "乙"
+  ],
+  "cap": 2,
+  "records": [
+    {
+      "id": "g1",
+      "registered_at": 10,
+      "providers": [
+        "甲"
+      ],
+      "title": "甲家同刻资源一"
+    },
+    {
+      "id": "g2",
+      "registered_at": 10,
+      "providers": [
+        "甲"
+      ],
+      "title": "甲家同刻资源二"
+    },
+    {
+      "id": "g3",
+      "registered_at": 10,
+      "providers": [
+        "甲",
+        "乙"
+      ],
+      "title": "联合同刻资源"
+    },
+    {
+      "id": "g4",
+      "registered_at": 10,
+      "providers": [
+        "甲"
+      ],
+      "title": "甲家同刻资源四"
+    },
+    {
+      "id": "g5",
+      "registered_at": 10,
+      "providers": [
+        "乙"
+      ],
+      "title": "乙家同刻资源"
+    },
+    {
+      "id": "h1",
+      "registered_at": 11,
+      "providers": [
+        "甲"
+      ],
+      "title": "甲家次刻资源一"
+    },
+    {
+      "id": "h2",
+      "registered_at": 11,
+      "providers": [
+        "甲"
+      ],
+      "title": "甲家次刻资源二"
+    },
+    {
+      "id": "j1",
+      "registered_at": 11,
+      "providers": [
+        "乙"
+      ],
+      "title": "乙家次刻资源一"
+    },
+    {
+      "id": "j2",
+      "registered_at": 11,
+      "providers": [
+        "乙"
+      ],
+      "title": "乙家次刻资源二"
+    },
+    {
+      "id": "k1",
+      "registered_at": 12,
+      "providers": [
+        "甲"
+      ],
+      "title": "末刻资源"
+    }
+  ]
+}
